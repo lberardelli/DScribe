@@ -3,6 +3,7 @@ package ca.mcgill.cs.swevo.dscribe.utils;
 import java.util.List;
 import java.util.Set;
 
+import ca.mcgill.cs.swevo.dscribe.model.FocalMethod;
 import ca.mcgill.cs.swevo.dscribe.template.PlaceholderType;
 import ca.mcgill.cs.swevo.dscribe.template.invocation.PlaceholderValue;
 
@@ -13,6 +14,7 @@ public class UserMessages
 	private static final String MISSING_FOCAL_CLASS_NAMES = "The %s command should include a space-seperated list "
 			+ "of the fully qualified \nnames of the focal classes for which to generate unit tests. For example,"
 			+ " \n\t- \"generateTests java.lang.String java.lang.Integer\"";
+	private static final String LOST_FOCAL_METHOD = "The focal method %s could not be found in class %s";
 
 	private UserMessages()
 	{
@@ -44,6 +46,11 @@ public class UserMessages
 				System.out.println();
 			}
 
+		}
+		
+		public static void lostFocalMethod(FocalMethod focalMethod, String className) 
+		{
+			System.out.println(String.format(LOST_FOCAL_METHOD, focalMethod.getSignature(), className));
 		}
 
 		public static void errorOccurred(String errorClass, String errorMessage)
