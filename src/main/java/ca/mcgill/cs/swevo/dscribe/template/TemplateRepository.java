@@ -31,5 +31,6 @@ public interface TemplateRepository extends Iterable<String> {
    * @param templateName Name of template method.
    * @return MethodDeclaration clone of the template method.
    */
+  //LBERAR: POTENTIAL CANDIDATE FOR DSCRIBE INVOCATION
   public List<Template> get(String templateName);
 }

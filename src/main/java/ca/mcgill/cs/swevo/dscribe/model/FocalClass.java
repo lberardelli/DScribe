@@ -16,9 +16,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+
+import ca.mcgill.cs.swevo.dscribe.utils.UserMessages;
 
 /**
  * A FocalClass holds reference to different units under test (for now, units under test correspond to methods in the
@@ -56,12 +62,22 @@ public class FocalClass extends AbstractClass implements Iterable<FocalMethod>
 		return new ArrayList<>(methods);
 	}
 
+	//LBERAR: CANDIDATE FOR DSCRIBE
 	public MethodDeclaration getMethodDeclaration(FocalMethod focalMethod)
 	{
-		TypeDeclaration<?> classDecl = compilationUnit().getType(0);
-		List<MethodDeclaration> methodDecl = classDecl.getMethodsBySignature(focalMethod.getName(),
-				focalMethod.getParameters().toArray(String[]::new));
-		return methodDecl.get(0);
+		CompilationUnit cu = compilationUnit();
+		@SuppressWarnings("rawtypes")
+		List<TypeDeclaration> list = cu.findAll(TypeDeclaration.class);
+		for (TypeDeclaration<?> node : list) {
+			List<MethodDeclaration> methodDecl = node.getMethodsBySignature(focalMethod.getName(),
+					focalMethod.getParameters().toArray(String[]::new));
+			if (methodDecl.isEmpty()) {
+				continue;
+			}
+			return methodDecl.get(0);
+		}
+		UserMessages.TestGeneration.lostFocalMethod(focalMethod, focalMethod.getName());
+		throw new IllegalStateException();
 	}
 
 	@Override
