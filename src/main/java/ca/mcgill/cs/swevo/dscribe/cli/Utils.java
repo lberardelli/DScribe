@@ -87,7 +87,6 @@ public class Utils
 	/**
 	 * Get resource name of the corresponding class
 	 */
-	//LBERAR: CANDIDATE FOR DSCRIBE?
 	public static String resourceName(String className)
 	{
 		return className.replaceAll(Pattern.quote("."), "/") + ".class";

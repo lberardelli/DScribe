@@ -14,6 +14,7 @@ import com.github.javaparser.ParseResult;
 import com.github.javaparser.Problem;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 import ca.mcgill.cs.swevo.dscribe.utils.exceptions.GenerationException;
 import ca.mcgill.cs.swevo.dscribe.utils.exceptions.GenerationException.GenerationError;
@@ -92,9 +93,9 @@ public abstract class AbstractClass implements Parseable
 		return cause.orElse(null);
 	}
 
-	protected ClassOrInterfaceDeclaration getClassDeclaration()
+	protected TypeDeclaration<?> getClassDeclaration()
 	{
 		assert cu != null;
-		return (ClassOrInterfaceDeclaration) cu.getType(0);
+		return cu.getType(0);
 	}
 }

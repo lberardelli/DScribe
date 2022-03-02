@@ -21,6 +21,7 @@ import java.util.Optional;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 
@@ -62,7 +63,6 @@ public class FocalClass extends AbstractClass implements Iterable<FocalMethod>
 		return new ArrayList<>(methods);
 	}
 
-	//LBERAR: CANDIDATE FOR DSCRIBE
 	public MethodDeclaration getMethodDeclaration(FocalMethod focalMethod)
 	{
 		CompilationUnit cu = compilationUnit();
