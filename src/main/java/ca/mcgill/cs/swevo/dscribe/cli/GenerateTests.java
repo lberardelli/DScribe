@@ -41,11 +41,8 @@ public class GenerateTests implements Callable<Integer>
 	List<String> focalClassNames;
 
 	@Override
-	//LBERAR: this is where the matching the annotation to the focal method sausage is made
 	public Integer call() throws URISyntaxException, ReflectiveOperationException
 	{
-		//focalClassNames is specified by the user on input to DScribe.
-		//if we don't find the method, we should look for it in a subclass.
 		if (focalClassNames == null || focalClassNames.isEmpty())
 		{
 			UserMessages.TestGeneration.isMissingFocalClassNames();
