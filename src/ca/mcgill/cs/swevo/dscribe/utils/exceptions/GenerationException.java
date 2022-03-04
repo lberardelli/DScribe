@@ -22,7 +22,7 @@ public class GenerationException extends RuntimeException {
   }
 
   public GenerationException(GenerationError error, Throwable cause) {
-    super("Generation error due to " + error.name(), cause);
+    super("Generation error due to " + error.name() + " " + cause.getMessage());
   }
 
   public enum GenerationError {
