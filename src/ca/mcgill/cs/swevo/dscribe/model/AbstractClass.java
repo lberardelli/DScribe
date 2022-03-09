@@ -26,6 +26,7 @@ public abstract class AbstractClass implements Parseable
 
 	protected AbstractClass(Path path)
 	{
+		//wait, an assertion here is not useful, because the path comes from real-world data!
 		assert path != null;
 		this.path = path;
 	}
