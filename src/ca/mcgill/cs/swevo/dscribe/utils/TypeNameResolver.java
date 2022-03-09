@@ -20,7 +20,6 @@ import com.github.javaparser.resolution.types.ResolvedPrimitiveType;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
 import com.github.javaparser.resolution.types.ResolvedType;
 import com.github.javaparser.resolution.types.ResolvedTypeVariable;
-import ca.mcgill.cs.jetuml.annotations.DScribeAnnotations.AssertThrows;
 
 public class TypeNameResolver {
 

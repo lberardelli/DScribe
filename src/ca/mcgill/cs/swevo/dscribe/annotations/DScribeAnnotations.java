@@ -30,6 +30,19 @@ public class DScribeAnnotations {
 		AssertThrows[] value();
 	}
 	
+	//ReturnNull Template
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ ElementType.TYPE, ElementType.METHOD })
+	public @interface ReturnNull {
+		String factory();
+		
+		String[] params();
+		
+		String state();
+		
+		public String uut() default "";
+	}
+	
 	// StatefulReturnsDouble Template
 	@Repeatable(StatefulReturnsDoubleList.class)
 	@Retention(RetentionPolicy.RUNTIME)

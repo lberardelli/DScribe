@@ -2,17 +2,13 @@ package $package$;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ca.mcgill.cs.jetuml.annotations.DScribeAnnotations.*;
-
+import ca.mcgill.cs.swevo.dscribe.annotations.DScribeAnnotations.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class Template {	
 	
-	/**
-	 * foo foo foo
-	 */
 	@Template("ToString")
 	@Types($target$=EXPR, $factory$=EXPR)
 	@Test
@@ -85,7 +81,7 @@ public class Template {
 	@Template("AssertBools")
 	@Types($trueState$=EXPR, $falseState$=EXPR, $factory$=EXPR, $trueParams$=EXPR_LIST, $falseParams$=EXPR_LIST)
 	@Test
-	public void $method$_When$trueState$Then$falseState$() {
+	public void $method$_When$trueState$ReturnTrueWhen$falseState$ReturnFalse() {
 		boolean actual = $factory$.$method$($trueParams$);
 		boolean fOracle = $factory$.$method$($falseParams$);
 		assertTrue(actual);
@@ -136,6 +132,16 @@ public class Template {
 	public void $method$_WhenInputIsNull_Test() {
 		$returnClass$ actual = $factory$.$method$(null);
 		assertEquals($expected$, actual);
+	}
+	
+	/**
+	 * Returns null when $state$
+	 */
+	@Template("ReturnNull")
+	@Types($factory$=EXPR, $state$=EXPR, $params$=EXPR_LIST)
+	@Test
+	public void $method$_returnsNullWhen$state$() {
+		assertSame($factory$.$method$($params$), null);
 	}
 	
 	@Template("AsFactory")
