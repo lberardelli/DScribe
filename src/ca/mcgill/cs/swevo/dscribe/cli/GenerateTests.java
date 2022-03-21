@@ -55,7 +55,7 @@ public class GenerateTests implements Callable<Integer>
 		// Create a FocalTestPair instance for each focal class name
 		List<FocalTestPair> focalTestPairs = Utils.initFocalClasses(focalClassNames, context);
 
-		// Generate unit tests for each template invocation in the focal and test classes
+		// Generate unit tests for each template invocation in the focal and test classes also parses template repo
 		var generator = new TestGenerator(focalTestPairs, context.templateRepository());
 		generator.prepare();
 		List<String> modifiedTestClasses = generator.generate();

@@ -55,17 +55,13 @@ public class TestFocalTestPair {
 	    }
 	    
 	    private static boolean assertContains(List<String> generatedNames, List<String> targetNames) {
-	    	for (String methodName : generatedNames) {
-	    		if (!targetNames.contains(methodName)) {
-	    			return false;
-	    		}
-	    	}
-	    	for (String methodName : targetNames) {
-	    		if (!generatedNames.contains(methodName)) {
-	    			return false;
-	    		}
-	    	}
-	    	return true;
+	    	return generatedNames.stream()
+	    			.filter(name -> targetNames.contains(name))
+	    			.count() == generatedNames.size() 
+	    			&&
+	    			targetNames.stream()
+	    			.filter(name -> generatedNames.contains(name))
+	    			.count() == targetNames.size();
 	    }
     }
 

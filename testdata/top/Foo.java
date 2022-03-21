@@ -3,8 +3,8 @@ package top;
 import ca.mcgill.cs.swevo.dscribe.annotations.DScribeAnnotations.AssertBools;
 
 public class Foo {
-
-    @AssertBools(factory = "Foo", falseParams = { "22" }, falseState = "isEven", trueParams = { "23" }, trueState = "isOdd")
+	
+    @AssertBools(factory = "Foo", falseParams = { "22" }, falseState = "isEven", trueParams = { "23" }, trueState = "isOdd", uut = "isOdd(int)")
     public static boolean isOdd(int n) {
         return n % 2 != 0;
     }
@@ -14,8 +14,8 @@ public class Foo {
     }
 
     static class Bar {
-
-        @AssertBools(factory = "Foo.Bar", falseParams = { "23" }, falseState = "Odd", trueParams = { "22" }, trueState = "isEven")
+    	
+        @AssertBools(factory = "Foo.Bar", falseParams = { "23" }, falseState = "Odd", trueParams = { "22" }, trueState = "isEven", uut = "isEven(int)")
         public static boolean isEven(int n) {
             return n % 2 == 0;
         }
