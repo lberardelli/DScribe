@@ -43,11 +43,4 @@ public class TestFocalClass {
     public void getMethodDeclaration_WhenMethodDNE_ThrowIllegalStateException() {
     	assertThrows(java.lang.IllegalStateException.class, () -> focalClass.getMethodDeclaration(new FocalMethod("foo", null)));
     }
-
-//    PROBLEM: How can I ensure failure here, under what repeatable, testable cases will this method fail? 
-//    @Test
-//    public void parseCompilationUnit_WhenClassDNE_ThrowGenerationException() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-//    	focalClass = new FocalClass(getPathToClass("top.Foo"));
-//        assertThrows(GenerationException.class, () -> focalClass.parseCompilationUnit(new JavaParser(new ParserConfiguration())));
-//    }
 }
