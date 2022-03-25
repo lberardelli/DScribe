@@ -1,10 +1,11 @@
 package ca.mcgill.cs.swevo.dscribe.model;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.TestInstance;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParserConfiguration;
 import ca.mcgill.cs.swevo.dscribe.Context;
-import ca.mcgill.cs.swevo.dscribe.annotations.DScribeAnnotations.AssertBools;
 import ca.mcgill.cs.swevo.dscribe.setup.Setup;
 import ca.mcgill.cs.swevo.dscribe.template.InMemoryTemplateRepository;
 import ca.mcgill.cs.swevo.dscribe.template.TemplateRepository;
@@ -53,16 +53,6 @@ public class TestFocalTestPair {
 	    	}
 	    	return ret;
 	    }
-	    
-	    private static boolean assertContains(List<String> generatedNames, List<String> targetNames) {
-	    	return generatedNames.stream()
-	    			.filter(name -> targetNames.contains(name))
-	    			.count() == generatedNames.size() 
-	    			&&
-	    			targetNames.stream()
-	    			.filter(name -> generatedNames.contains(name))
-	    			.count() == targetNames.size();
-	    }
     }
 
     @BeforeAll
@@ -84,13 +74,15 @@ public class TestFocalTestPair {
     	List<String> focalMethods = focalTestPair.focalClass().getMethods()
     			.stream()
     			.map(fm -> fm.getSignature()).toList();
-    	assertTrue(Util.assertContains(focalMethods, Util.getTargetMethodStrings()));
+    	
+    	assertEquals(new HashSet<String>(focalMethods), new HashSet<String>(Util.getTargetMethodStrings()));
+    	
     }
     
     @Test
     public void extractTemplateInvocations_FindsDScribeAnnotations() {
     	focalTestPair.extractTemplateInvocations(templateRepo);
-    	assertTrue(Util.assertContains(Util.collectExtractedAnnotations(this), Util.getTargetAnnotationStrings()));
+    	assertEquals(new HashSet<String>(Util.collectExtractedAnnotations(this)), new HashSet<String>(Util.getTargetAnnotationStrings()));
     }
     
     /*
