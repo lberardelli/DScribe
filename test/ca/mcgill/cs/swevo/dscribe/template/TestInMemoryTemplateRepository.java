@@ -3,6 +3,8 @@ package ca.mcgill.cs.swevo.dscribe.template;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,7 +22,15 @@ import com.github.javaparser.ast.ImportDeclaration;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class TestInMemoryTemplateRepository {
 	
-	InMemoryTemplateRepository repository;
+	private InMemoryTemplateRepository repository;
+	
+	void addTemplate(Template template) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException 
+	{
+		Class<?> repoClass = repository.getClass();
+		Method addTemplateMethod = repoClass.getDeclaredMethod("addTemplate", Template.class);
+		addTemplateMethod.setAccessible(true);
+		addTemplateMethod.invoke(repository, template);
+	}
 	
 	class Target {
 	

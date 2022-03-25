@@ -1,9 +1,16 @@
 package ca.mcgill.cs.swevo.dscribe.setup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.Properties;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.ast.CompilationUnit;
 
 import ca.mcgill.cs.swevo.dscribe.Context;
 import ca.mcgill.cs.swevo.dscribe.model.FocalTestPairFactory;
@@ -28,4 +35,11 @@ public class Setup {
     	getPath.setAccessible(true);
     	return (Path) getPath.invoke(focalTestPairFactory, className, targetFolder);
     }
+
+	public static CompilationUnit parse(String pathToFile) throws FileNotFoundException {
+		JavaParser parser = new JavaParser(new ParserConfiguration());
+		File file = new File(pathToFile);
+		ParseResult<CompilationUnit> result = parser.parse(file);
+		return result.getResult().get();
+	}
 }

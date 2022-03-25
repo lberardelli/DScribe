@@ -2,52 +2,32 @@ package ca.mcgill.cs.swevo.dscribe.template;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseResult;
-import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
+
+import ca.mcgill.cs.swevo.dscribe.setup.Setup;
 
 
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class TestTemplateFileParser {
+	//LBERAR: TODO test this out with bad template files.
 
 	private void addTemplate(Template template) {
-		if (templateMethods.containsKey(template.getName())) {
-			List<Template> newList = templateMethods.get(template.getName());
-			newList.add(template);
-			templateMethods.put(template.getName(), newList);
-		} else {
-			List<Template> newList = new ArrayList<>();
-			newList.add(template);
-			templateMethods.put(template.getName(), newList);
-		}
 	}
 	
-	private final Map<String, List<Template>> templateMethods = new HashMap<>();
-	
-	TemplateFileParser fileParser;
-	
-	CompilationUnit cu;
+	private TemplateFileParser fileParser;
+	private CompilationUnit cu;
 	
 	@BeforeAll
 	public void parse() throws FileNotFoundException {
-		JavaParser parser = new JavaParser(new ParserConfiguration());
-		File file = new File(System.getProperty("user.dir") + "/dscribe-test-data/templates/TestTemplate.java");
-		ParseResult<CompilationUnit> result = parser.parse(file);
-		cu = result.getResult().get();
+		cu = Setup.parse(System.getProperty("user.dir") + "/dscribe-test-data/templates/TestTemplate.java");
 	}
 	
 	@BeforeEach
@@ -68,12 +48,7 @@ public class TestTemplateFileParser {
 	}
 	
 	@Test
-	public void visitClassOrInterface_FindsImports() {
-		List<String> imports = TestInMemoryTemplateRepository.Target.importNames;
-	}
-	
-	@Test
-	public void visitPackageDecleration_FindsPackageName() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public void visitPackageDeclaration_FindsPackageName() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		fileParser.visit(cu.getPackageDeclaration().get(), cu.getImports());
 		
 		Class<?> clazz = fileParser.getClass();
