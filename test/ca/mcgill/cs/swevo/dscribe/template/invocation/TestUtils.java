@@ -22,25 +22,35 @@ import com.github.javaparser.ast.visitor.Visitable;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+/**
+ * 
+ * @author lawrenceberardelli
+ *
+ */
 public class TestUtils {
 	
+	/*
+	 * visitable stub to enable testing private inner visitors
+	 */
 	private class StubMemberValuePair implements Visitable {
 		
 		MemberValuePair mvPair;
 		
-		public StubMemberValuePair(String annotationPairName, Expression expr) {
+		public StubMemberValuePair(String annotationPairName, Expression expr) 
+		{
 			SimpleName name = new SimpleName(annotationPairName);
 			mvPair = new MemberValuePair(name, expr);
 		}
 
 		@Override
-		public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-			// TODO Auto-generated method stub
+		public <R, A> R accept(GenericVisitor<R, A> v, A arg) 
+		{
 			return null;
 		}
 
 		@Override
-		public <A> void accept(VoidVisitor<A> v, A arg) {
+		public <A> void accept(VoidVisitor<A> v, A arg) 
+		{
 			v.visit(mvPair, arg);	
 		}
 		
@@ -86,6 +96,7 @@ public class TestUtils {
 		expressions.add(new StringLiteralExpr("new Factory()"));
 		expressions.add(new StringLiteralExpr("old Factory)("));
 		StubMemberValuePair stub = new StubMemberValuePair("factory", new ArrayInitializerExpr(expressions));
+		
 		Class<?> utilClass = Class.forName("ca.mcgill.cs.swevo.dscribe.template.invocation.Utils");
 		Field visitorField = utilClass.getDeclaredField("PLACEHOLDER_COLLECTOR");
 		visitorField.setAccessible(true);
