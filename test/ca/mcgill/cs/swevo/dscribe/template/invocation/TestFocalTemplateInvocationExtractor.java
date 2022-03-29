@@ -28,16 +28,25 @@ import ca.mcgill.cs.swevo.dscribe.setup.Setup;
 import ca.mcgill.cs.swevo.dscribe.template.InMemoryTemplateRepository;
 import ca.mcgill.cs.swevo.dscribe.template.TemplateRepository;
 
+/**
+ * 
+ * @author lawrenceberardelli
+ *
+ */
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class TestFocalTemplateInvocationExtractor {
-	
+
+	/*
+	 * stub visitable to enable access to private inner annotation visitors
+	 */
 	private static class StubAnnotation implements Visitable {
-		
+
 		NormalAnnotationExpr annotation;
-		
-		public StubAnnotation(String[] keyNames, String[] values) {
+
+		public StubAnnotation(String[] keyNames, String[] values) 
+		{
 			assert keyNames.length == values.length;
-			
+
 			annotation = new NormalAnnotationExpr();
 			for (int i = 0; i < keyNames.length; ++i) {
 				annotation.addPair(keyNames[i], values[i]);
@@ -45,104 +54,119 @@ public class TestFocalTemplateInvocationExtractor {
 		}
 
 		@Override
-		public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
+		public <R, A> R accept(GenericVisitor<R, A> v, A arg) 
+		{
 			return null;
 		}
 
 		@Override
-		public <A> void accept(VoidVisitor<A> v, A arg) {
+		public <A> void accept(VoidVisitor<A> v, A arg) 
+		{
 			v.visit(annotation, arg);
 		}
 	}
-	
+
 	private static TemplateRepository templateRepo;
 	private static FocalTemplateInvocationExtractor extractor;
 	private static FocalClass focalClass;
-	
+
 	@BeforeAll
-	public void setupContext() {
+	void setupContext() 
+	{
 		templateRepo = new InMemoryTemplateRepository(System.getProperty("user.dir") + "/dscribe/templates");
 	}
-	
+
 	@BeforeEach
-	public void setupTemplateRepo() throws FileNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	void setupTemplateRepo() throws FileNotFoundException, NoSuchMethodException, SecurityException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException 
+	{
 		extractor = new FocalTemplateInvocationExtractor(templateRepo);
 		Path path = Setup.getPathToClass(Setup.setupContext(), "top.MinimalUsage", "src");
 		focalClass = new FocalClass(path);
 	}
-	
+
 	private static String annotationString = "@AssertBools(factory = \"MinimalUsage\", falseParams = { \"22\" }, falseState = \"IsEven\", trueParams = { \"23\" }, trueState = \"IsOdd\", uut = \"isOdd(int)\")";
-	
+
 	@Test
-	public void testinvocationExtractor_FindsAllTemplateInvocations() throws FileNotFoundException  
+	void test_invocationExtractor_FindsAllTemplateInvocations() throws FileNotFoundException 
 	{
 		CompilationUnit cu = Setup.parse(System.getProperty("user.dir") + "/testdata/top/MinimalUsage.java");
 		boolean bFound = false;
 		cu.accept(extractor, focalClass);
-		for (FocalMethod method : focalClass)
-		{
-			for (TemplateInvocation invocation : method) 
-			{
+		for (FocalMethod method : focalClass) {
+			for (TemplateInvocation invocation : method) {
 				assertEquals(invocation.getAnnotationExpr().toString(), annotationString);
 				bFound = true;
 			}
 		}
 		assertTrue(bFound);
 	}
-	
+
 	@Test
-	public void testinvocationExtractor_FindsFocalMethod() throws FileNotFoundException 
+	void test_invocationExtractor_FindsFocalMethod() throws FileNotFoundException 
 	{
 		CompilationUnit cu = Setup.parse(System.getProperty("user.dir") + "/testdata/top/MinimalUsage.java");
 		cu.accept(extractor, focalClass);
 		List<String> foundMethods = new ArrayList<String>();
-		for (FocalMethod method : focalClass) 
-		{
+		for (FocalMethod method : focalClass) {
 			foundMethods.add(method.getSignature());
 		}
 		List<String> oracle = new ArrayList<String>();
 		oracle.add("isOdd(int)");
 		assertEquals(new HashSet<String>(oracle), new HashSet<String>(foundMethods));
 	}
-	
-	//LBERAR: lower case method names, and use "test" naming convention, don't make public
-	//Add comments to clarify what the test is testing.
+
+
+	/*
+	 * asserts that the invocation collector adds a UUT pair if one is not provided
+	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testinvocationCollector_adds_UUTAnnotationPair() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException 
+	void test_invocationCollector_adds_UUTAnnotationPair()
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException 
 	{
 		FocalMethod dummyMethod = new FocalMethod("Dummy", null);
 		Field collector = extractor.getClass().getDeclaredField("INVOCATION_DATA_COLLECTOR");
 		collector.setAccessible(true);
-		StubAnnotation noUUT = new StubAnnotation(new String[] {"factory"}, new String[] {"\"MinimalUsage\""});
-		noUUT.accept((VoidVisitor<FocalMethod>)collector.get(extractor), dummyMethod);
+		
+		StubAnnotation noUUT = new StubAnnotation(new String[] { "factory" }, new String[] { "\"MinimalUsage\"" });
+		noUUT.accept((VoidVisitor<FocalMethod>) collector.get(extractor), dummyMethod);
+		
 		List<String> foundInvocations = new ArrayList<String>();
 		for (TemplateInvocation invocation : dummyMethod) 
 		{
 			foundInvocations.add(invocation.getAnnotationExpr().toString());
 		}
+		
 		List<String> oracle = new ArrayList<String>();
 		oracle.add("@empty(factory = \"MinimalUsage\", uut = \"Dummy()\")");
 		assertEquals(new HashSet<String>(oracle), new HashSet<String>(foundInvocations));
 	}
-	
+
+	/*
+	 * asserts that the invocation collector won't add a UUT if the user has provided one.
+	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testinvocationCollector_no_duplicate_UUTAnnotationPair() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException 
+	void test_invocationCollector_no_duplicate_UUTAnnotationPair()
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException 
 	{
 		FocalMethod dummyMethod = new FocalMethod("Dummy", null);
 		Field collector = extractor.getClass().getDeclaredField("INVOCATION_DATA_COLLECTOR");
 		collector.setAccessible(true);
-		StubAnnotation withUUT = new StubAnnotation(new String[] {"factory", "uut"}, new String[] {"\"MinimalUsage\"", "\"Baz()\""});
-		withUUT.accept((VoidVisitor<FocalMethod>)collector.get(extractor), dummyMethod);
+		
+		StubAnnotation withUUT = new StubAnnotation(new String[] { "factory", "uut" }, new String[] { "\"MinimalUsage\"", "\"Baz()\"" });
+		withUUT.accept((VoidVisitor<FocalMethod>) collector.get(extractor), dummyMethod);
+		
 		List<String> foundInvocations = new ArrayList<String>();
 		for (TemplateInvocation invocation : dummyMethod) 
 		{
 			foundInvocations.add(invocation.getAnnotationExpr().toString());
 		}
+		
 		List<String> oracle = new ArrayList<String>();
 		oracle.add("@empty(factory = \"MinimalUsage\", uut = \"Baz()\")");
 		assertEquals(new HashSet<String>(oracle), new HashSet<String>(foundInvocations));
 	}
-	
+
 }
