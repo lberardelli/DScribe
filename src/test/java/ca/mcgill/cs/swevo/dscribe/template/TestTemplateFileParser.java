@@ -1,6 +1,6 @@
 package ca.mcgill.cs.swevo.dscribe.template;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;

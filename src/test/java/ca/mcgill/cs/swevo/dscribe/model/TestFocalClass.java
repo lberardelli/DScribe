@@ -34,7 +34,7 @@ public class TestFocalClass {
 
     @BeforeEach
     public void setupFocalClass() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        focalClass = new FocalClass(getPathToClass("top.Foo", context.sourceFolder()));
+        focalClass = new FocalClass(getPathToClass("top.HasNestedClass", context.sourceFolder()));
         focalClass.parseCompilationUnit(new JavaParser(new ParserConfiguration()));
     }
 

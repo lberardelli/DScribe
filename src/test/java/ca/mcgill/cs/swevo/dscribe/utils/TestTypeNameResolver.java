@@ -1,8 +1,8 @@
 package ca.mcgill.cs.swevo.dscribe.utils;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import ca.mcgill.cs.swevo.dscribe.annotations.DScribeAnnotations.AssertThrows;
 

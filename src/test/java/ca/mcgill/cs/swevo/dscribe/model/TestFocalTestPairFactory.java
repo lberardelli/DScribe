@@ -1,6 +1,5 @@
 package ca.mcgill.cs.swevo.dscribe.model;
 
-import static org.junit.Assert.assertEquals;
 import java.lang.reflect.*;
 import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,8 +32,8 @@ public class TestFocalTestPairFactory {
     public void Test_getPathToClass() throws SecurityException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method method = factory.getClass().getDeclaredMethod("getPathToClass", String.class, String.class);
         method.setAccessible(true);
-        Path path = (Path) method.invoke(factory, "top.Foo", context.sourceFolder());
-        assertEquals(path.toString(), System.getProperty("user.dir") + "/" + context.sourceFolder() + "/top/Foo.java");
+        Path path = (Path) method.invoke(factory, "top.HasNestedClass", context.sourceFolder());
+        assertEquals(path.toString(), System.getProperty("user.dir") + "/" + context.sourceFolder() + "/top/HasNestedClass.java");
     }
 
     @Test

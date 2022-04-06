@@ -1,7 +1,8 @@
 package ca.mcgill.cs.swevo.dscribe.template;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -96,6 +96,7 @@ public class TestInMemoryTemplateRepository {
 			
 			assertEquals(targetPlaceholders.size(), foundPlaceholders.size());
 			
+			//assert whether the parsed placeholders match the name and type of what was expected
 			for (int i = 0; i < targetPlaceholders.size(); ++i) {
 				Set<Placeholder> target = new HashSet<Placeholder>(targetPlaceholders.get(i));
 				Set<Placeholder> found = new HashSet<Placeholder>(foundPlaceholders.get(i));
@@ -117,7 +118,7 @@ public class TestInMemoryTemplateRepository {
 		
 		@Test
 		public void InMemortTemplateRepository_findsPackageDecleration() {
-			Assert.assertEquals(repository.get(null).get(0).getPackageName(), "$package$");
+			assertEquals(repository.get(null).get(0).getPackageName(), "$package$");
 		}
 	}
 	
@@ -134,8 +135,8 @@ public class TestInMemoryTemplateRepository {
 			List<Template> templates = repository.get(Target.templateNames.get(0));
 			Template hasDocs = templates.get(0);
 			Template noDocs = templates.get(1);
-			Assert.assertTrue(hasDocs.getDocFactory().isPresent());
-			Assert.assertFalse(noDocs.getDocFactory().isPresent());
+			assertTrue(hasDocs.getDocFactory().isPresent());
+			assertFalse(noDocs.getDocFactory().isPresent());
 		}
 	}
 

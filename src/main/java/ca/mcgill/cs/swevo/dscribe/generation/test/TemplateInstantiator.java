@@ -86,6 +86,7 @@ public class TemplateInstantiator extends ModifierVisitor<TemplateInvocation>
 		String name = identifier;
 		if (template.containsPlaceholder(name))
 		{
+			//TODO: LBERAR I think there's a bug here, what if the placeholder isn't valid?
 			var value = template.getPlaceholderValue(name);
 			if (value.isList())
 			{
