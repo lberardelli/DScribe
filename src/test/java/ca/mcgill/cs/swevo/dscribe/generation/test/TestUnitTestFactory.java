@@ -31,7 +31,6 @@ public class TestUnitTestFactory
 			methodDefaultPlaceholders.setAccessible(true);
 			methodDefaultPlaceholders.invoke(null, invocation, focalClass, method);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

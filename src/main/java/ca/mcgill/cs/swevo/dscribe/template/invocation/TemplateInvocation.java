@@ -101,7 +101,7 @@ public class TemplateInvocation
 		return oldTestMethod.get();
 	}
 
-	//TODO: LBERAR i wonder if this is deprecated by the use of 
+	//TODO: LBERAR i wonder if this is deprecated by the use of the annotations file
 	public boolean validate(TemplateRepository repository)
 	{
 		if (!repository.contains(templateName))

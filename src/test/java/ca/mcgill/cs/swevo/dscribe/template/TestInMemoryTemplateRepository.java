@@ -36,6 +36,9 @@ public class TestInMemoryTemplateRepository {
 	
 		static List<String> templateNames = Arrays.asList(new String[] { "AssertThrows" });
 		
+		/*
+		 * Oracles for found placeholders test
+		 */
 		static List<ArrayList<Placeholder>> getPlaceholderPairs() {
 			List<ArrayList<Placeholder>> ret = new ArrayList<ArrayList<Placeholder>>();
 			ArrayList<Placeholder> templatePlaceholders = new ArrayList<Placeholder>();
@@ -57,6 +60,9 @@ public class TestInMemoryTemplateRepository {
 			return ret;
 		}
 		
+		/*
+		 * oracles for found imports test
+		 */
 		static List<String> importNames = Arrays.asList(new String[] {
 				"import static org.junit.jupiter.api.Assertions.*;\n",
 				"import org.junit.jupiter.api.Test;\n", 

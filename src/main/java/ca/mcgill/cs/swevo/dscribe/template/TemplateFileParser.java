@@ -66,7 +66,6 @@ public class TemplateFileParser extends VoidVisitorAdapter<List<ImportDeclaratio
 	}
 
 	@Override
-	//TODO: LBERAR why is this here? When would a class or interface decleration be a template?
 	public void visit(ClassOrInterfaceDeclaration n, List<ImportDeclaration> imports)
 	{
 		ClassOrInterfaceDeclaration classDecl = n.clone();

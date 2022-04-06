@@ -153,7 +153,7 @@ public class Template {
 	}
 	
 	/** 
-	 * Asserts equality 
+	 * Asserts equality
 	 */
 	@Template("EqualsContract")
 	@Types($factory1$=EXPR, $factory2$=EXPR, $factory3$=EXPR)
