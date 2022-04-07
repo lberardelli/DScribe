@@ -51,7 +51,7 @@ public class TestUtils {
 		@Override
 		public <A> void accept(VoidVisitor<A> v, A arg) 
 		{
-			v.visit(mvPair, arg);	
+			v.visit(mvPair, arg);
 		}
 		
 	}

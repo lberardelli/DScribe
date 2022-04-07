@@ -82,7 +82,31 @@ public class TestTemplateInstantiator
 		}
 	}
 	
+	@Test
+	void test_TemplateInstantiator_IgnoresIdentifierThatDoesNotExistInInvocation() 
+	{
+		FocalTestPair pair = setup("top.MinimalUsage", "top.TestMinimalUsage", "testdata");
+		SimpleName statement = new SimpleName("$params$");
+		for (FocalMethod method : pair.focalClass()) {
+			for (TemplateInvocation invocation : method) {
+				SimpleName result = (SimpleName) statement.accept(new TemplateInstantiator(), invocation);
+				assertEquals(result.asString(), "$params$");
+			}
+		}
+	}
+	
 	//TODO: test with a different template invocation, including when one of the value pairs has an empty string e.g @Foo(factory = "")
+	@Test
+	void test_TemplateInstantiator_ReturnsCommaSeperatedStringWhenExpressionIsList() {
+		FocalTestPair pair = setup("top.MinimalUsage", "top.TestMinimalUsage", "testdata");
+		SimpleName expression = new SimpleName("$falseParams$");
+		for (FocalMethod method : pair.focalClass()) {
+			for (TemplateInvocation invocation : method) {
+				SimpleName result = (SimpleName)expression.accept(new TemplateInstantiator(), invocation);
+				assertEquals(result.asString(), "22, 0");
+			}
+		}
+	}
 	
 	@Test
 	void test_TemplateInstantiator_ThrowsExceptionWhenInvalidPlaceholder() 
