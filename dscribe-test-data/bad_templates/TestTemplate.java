@@ -25,4 +25,18 @@ public class BadTemplates {
 	public void singleAnnotationTemplateDecleration() {
 		
 	}
+	
+	@Template("BadAnnotationType")
+	@Types($state$=DNE)
+	@Test
+	public void annotationTypeDoesNotExist() {
+		
+	}
+	
+	@Template("NotNormalTypesAnnotation")
+	@Types(state)
+	@Test
+	public void notNormalTypesAnnotation() {
+		
+	}
 }

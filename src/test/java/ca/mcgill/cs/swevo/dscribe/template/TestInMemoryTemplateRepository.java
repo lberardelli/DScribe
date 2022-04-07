@@ -19,7 +19,10 @@ import org.junit.jupiter.api.TestInstance;
 
 import com.github.javaparser.ast.ImportDeclaration;
 
-@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
+/*
+ * This test class is useful to ensure that the aggregate of the template parsing activity is as expected
+ * Fine grain testing occurs in TemplateFileParser
+ */
 public class TestInMemoryTemplateRepository {
 	
 	private InMemoryTemplateRepository repository;
@@ -125,24 +128,6 @@ public class TestInMemoryTemplateRepository {
 		@Test
 		public void InMemortTemplateRepository_findsPackageDecleration() {
 			assertEquals(repository.get(null).get(0).getPackageName(), "$package$");
-		}
-	}
-	
-	@Nested
-	public class AttachedJavaDocs {
-		
-		@BeforeEach
-		public void setup() {
-			repository = new InMemoryTemplateRepository(System.getProperty("user.dir") + "/dscribe-test-data/javadocs_template");
-		}
-		
-		@Test
-		public void InMemoryTemplateRepository_findsJavaDocs() {
-			List<Template> templates = repository.get(Target.templateNames.get(0));
-			Template hasDocs = templates.get(0);
-			Template noDocs = templates.get(1);
-			assertTrue(hasDocs.getDocFactory().isPresent());
-			assertFalse(noDocs.getDocFactory().isPresent());
 		}
 	}
 

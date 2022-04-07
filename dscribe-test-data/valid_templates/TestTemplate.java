@@ -37,6 +37,13 @@ public class ValidTemplates {
 		assertThrows($exType$, () -> $factory$.$method$($params$)); 
 	}
 	
+	@Template("PlaceholderTestTemplate")
+	@Types($state$=EXPR, $exType$=EXCEPTION, $type$=TYPE, $method$=METHOD, $field$=FIELD, $params$=EXPR_LIST) 
+	@Test
+	public void placeHolderTestTemplate() {
+		
+	}
+	
 	/**
 	 * Create class level template skeleton
 	 */

@@ -65,6 +65,10 @@ public class TemplateFileParser extends VoidVisitorAdapter<List<ImportDeclaratio
 		super.visit(importDeclaration, imports);
 	}
 
+	/*
+	 * TODO: LBERAR these can be good examples of how to stretch dscribe beyond the canonical implementation 
+	 * and into a stretched usage case, perhaps even past the point of feasibility.
+	 */
 	@Override
 	public void visit(ClassOrInterfaceDeclaration n, List<ImportDeclaration> imports)
 	{
